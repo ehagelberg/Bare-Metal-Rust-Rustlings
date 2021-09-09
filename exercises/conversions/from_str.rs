@@ -11,7 +11,6 @@ struct Person {
     age: usize,
 }
 
-// I AM NOT DONE
 
 // Steps:
 // 1. If the length of the provided string is 0, an error should be returned
@@ -26,6 +25,23 @@ struct Person {
 impl FromStr for Person {
     type Err = Box<dyn error::Error>;
     fn from_str(s: &str) -> Result<Person, Self::Err> {
+        if s.len() == 0{
+            return Err("fail".into())
+        }
+        let parts = s.split(",").collect::<Vec<&str>>();
+        if parts.len() != 2{
+            return Err("fail".into())
+        }
+        if parts[0].to_string() == ""{
+            return Err("fail".into());
+        }
+        let age = parts[1].parse::<usize>();
+        match age{
+            Ok(age) => Ok(Person{name:parts[0].to_string(), age: age}),
+            Err(err) => Err("fail".into()),
+        }
+
+
     }
 }
 
